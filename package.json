@@ -1,0 +1,26 @@
+{
+  "name": "carl-karts",
+  "version": "1.0.0",
+  "description": "Devaway testing exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "nodejs",
+    "exercise",
+    "api",
+    "REST"
+  ],
+  "author": "Jose A. Rodriguez",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
