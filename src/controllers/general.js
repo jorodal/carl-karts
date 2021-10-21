@@ -5,7 +5,6 @@ const Participation = require('../models').Participation;
 var helper = require('../routes/helper');
 const { sequelize } = require("../models");
 
-const default_data = require('../data/drivers_karts_Back.json');
 var POINTS_TABLE = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
 
 module.exports = {
@@ -47,6 +46,7 @@ module.exports = {
 
         res.status(200).json("Imported successfully");
     },
+
     async updateClassification() {
         // Update all the instances refreshing points and position by race
         try {
@@ -76,6 +76,7 @@ module.exports = {
             throw new Error('Could not update Classification')
         }
     },
+
     export(_, res) {
         return Driver.findAll({
             include: {
@@ -88,22 +89,36 @@ module.exports = {
             }
         })
             .then(Driver => res.status(200).json(Driver))
-            .catch(error => res.status(400).json(error))
+            .catch(error => res.status(500).json(error))
     },
 
-    async classif(req, res) {
+    async general_classification(req, res) {
 
-        Participation.findAll({
-            include: { Driver },
-            attributes: {
-                include: [
-                    [sequelize.fn('SUM', sequelize.col('points')), 'total_points']
-                ]
-            },
-            order: ['position']
+        return Participation.findAll({
+            attributes: [
+                [sequelize.fn('SUM', sequelize.col('points')), 'total_points']
+            ],
+            include: { model: Driver },
+            group: ['Driver.id'],
+            order: [sequelize.literal('total_points DESC')]
         })
         .then(response => res.status(200).json(response))
         .catch(error => res.status(400).json(error))
-    }
+    },
+
+    async individual_classification(req, res) {
+
+        return Participation.findAll({
+            where: { RaceId: req.params.raceid} ,
+            attributes: [
+                'position','points','best_lap','total_time'
+            ],
+            include: { model: Driver },
+            group: ['Driver.id','Participation.id'],
+            order: [['position','ASC']]
+        })
+        .then(response => res.status(200).json(response))
+        //.catch(error => res.status(400).json(error))
+    },
 
 };

@@ -1,9 +1,14 @@
-const express       = require('express');
-const logger        = require('morgan');
-const db 		= require('./models/');
-// Set up the express app
-const app = express();
+const express       = require('express'),
+      logger        = require('morgan'),
+      db 		= require('./models/'),
+      app = express(),
+      routesv2 = require('./config/routes'),
+      swaggerUi = require('swagger-ui-express'),
+      swaggerJsdoc = require('swagger-jsdoc');
+
+// Set up server to server express application
 var http = require('http').createServer(app);
+
 // Check db connection
 db.sequelize.authenticate()
   .then(function () {
@@ -12,17 +17,34 @@ db.sequelize.authenticate()
   .catch(function(error) {
     console.log("Error creating connection:", error);
   });
-// Log requests to the console.
+
+  // Log requests to the console.
 app.use(logger('dev'));
+
 // Parse incoming requests limit extended to load big JSON on import/export functions
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb', extended: false }));
+
+//Setup swagger
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Carl Karts',
+      version: '1.0.0',
+    }
+  },
+  apis: ['./src/config/routes.js'], // files containing annotations as above
+};
+const openapiSpecification = swaggerJsdoc(options);
+
 // Setup a routing system
-require('./config/routes')(app);
-app.use('/api/v1', require('./routes/routes'))
-app.get('*', (req, res) => res.status(200).send({
-     message: 'This address does not exist',
-}));
+routesv2.setup(app);
+//app.use('/api/v1', require('./routes/routes'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
+app.get('*', (_, res) => res.redirect('/api-docs'));
+
+//Listen server
 app.set('port', process.env.PORT || 8000);
 http.listen(app.get('port'), function () { 
    console.log("Server running on port", app.get('port'));

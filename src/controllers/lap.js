@@ -5,11 +5,11 @@ module.exports = {
  create(req, res) {
     return Lap
         .create ({
-            driver_id: req.body.driver_id,
-            race_id: req.body.race_id,
+            DriverId: req.body.driver_id,
+            RaceId: req.body.race_id,
             time: req.body.lap_time
         })
-        .then(Lap => res.status(200).json(Lap))
+        .then(Lap => res.status(201).json(Lap))
         .catch(error => res.status(400).json(error))
  },
 

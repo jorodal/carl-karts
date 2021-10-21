@@ -7,7 +7,7 @@ module.exports = {
         .create ({
             name: req.body.name,
         })
-        .then(Race => res.status(200).json(Race))
+        .then(Race => res.status(201).json(Race))
         .catch(error => res.status(400).json(error))
  },
 
