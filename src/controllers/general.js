@@ -2,6 +2,7 @@ const Driver = require('../models').Driver;
 const Race = require('../models').Race;
 const Lap = require('../models').Lap;
 const Participation = require('../models').Participation;
+const moment = require('moment');
 var helper = require('../routes/helper');
 const { sequelize } = require("../models");
 
@@ -57,7 +58,7 @@ module.exports = {
                 let fastest_lap = JSON.parse(JSON.stringify(participations)) // deep copy
                     .sort((a, b) => (a.best_lap < b.best_lap) ? -1 : ((a.best_lap > b.best_lap) ? 1 : 0))[0];
                 // Order drivers by total time
-                participations.sort((a, b) => (a.total_time < b.total_time) ? -1 : ((a.total_time > b.total_time) ? 1 : 0));
+                participations.sort((a, b) => (moment.duration(a.total_time) < moment.duration(b.total_time)) ? -1 : ((moment.duration(a.total_time) > moment.duration(b.total_time)) ? 1 : 0));
                 // Add position and points fields
                 participations.map(async function (part, index) {
                     //Points by position
