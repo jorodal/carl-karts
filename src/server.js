@@ -2,7 +2,7 @@ const express       = require('express'),
       logger        = require('morgan'),
       db 		= require('./models/'),
       app = express(),
-      routesv2 = require('./config/routes'),
+      routes = require('./config/routes'),
       swaggerUi = require('swagger-ui-express'),
       swaggerJsdoc = require('swagger-jsdoc');
 
@@ -40,8 +40,7 @@ const options = {
 const openapiSpecification = swaggerJsdoc(options);
 
 // Setup a routing system
-routesv2.setup(app);
-//app.use('/api/v1', require('./routes/routes'));
+routes.setup(app);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.get('*', (_, res) => res.redirect('/api-docs'));
 

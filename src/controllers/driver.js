@@ -1,7 +1,6 @@
 const Driver = require('../models').Driver;
 const Participation = require('../models').Participation;
 const Race = require('../models').Race;
-const { sequelize } = require('../models');
 
 module.exports = {
 
