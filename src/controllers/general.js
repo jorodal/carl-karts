@@ -56,7 +56,7 @@ module.exports = {
                 const participations = await Participation.findAll({ where: { RaceId: race.id } });
                 // Extract fastest lap of the race
                 let fastest_lap = JSON.parse(JSON.stringify(participations)) // deep copy
-                    .sort((a, b) => (a.best_lap < b.best_lap) ? -1 : ((a.best_lap > b.best_lap) ? 1 : 0))[0];
+                    .sort((a, b) => (moment.duration(a.best_lap) < moment.duration(b.best_lap)) ? -1 : ((moment.duration(a.best_lap) > moment.duration(b.best_lap)) ? 1 : 0))[0];
                 // Order drivers by total time
                 participations.sort((a, b) => (moment.duration(a.total_time) < moment.duration(b.total_time)) ? -1 : ((moment.duration(a.total_time) > moment.duration(b.total_time)) ? 1 : 0));
                 // Add position and points fields

@@ -48,8 +48,10 @@ To view the api documentation, open in your browser:
 http://localhost:3000/api-docs
 ```
 
-First step MUST be importing data, make a POST request with the information contained in 'data/drivers_karts_Back.json' to:
+### Importing data
+Using POSTMAN (or similar) make a POST request with the information contained in 'data/drivers_karts_Back.json' as the body:
 ```
 POST/ http://localhost:3000/api/import
 BODY: 'data/drivers_karts_Back.json'
+EXPECTED ANSWER: "imported successfully"
 ```
