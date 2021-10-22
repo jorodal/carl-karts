@@ -81,15 +81,15 @@ module.exports = {
         return Driver.findAll({
             include: {
                 model: Race,
-                /*through: { attributes: [] }*/
+                attributes: ['name'], 
                 include: {
                     model: Lap,
-                    /*through: { attributes: ['name'] }*/
+                    attributes: ['time'],
                 }
             }
         })
             .then(Driver => res.status(200).json(Driver))
-            .catch(error => res.status(500).json(error))
+           // .catch(error => res.status(500).json(error))
     },
 
     async general_classification(req, res) {

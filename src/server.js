@@ -18,7 +18,7 @@ db.sequelize.authenticate()
     console.log("Error creating connection:", error);
   });
 
-  // Log requests to the console.
+// Log requests to the console.
 app.use(logger('dev'));
 
 // Parse incoming requests limit extended to load big JSON on import/export functions
@@ -32,9 +32,10 @@ const options = {
     info: {
       title: 'Carl Karts',
       version: '1.0.0',
+      description: 'API calls for the Carl Karts exercise'
     }
   },
-  apis: ['./src/config/routes.js'], // files containing annotations as above
+  apis: ['./src/config/routes.js'], // files containing annotations 
 };
 const openapiSpecification = swaggerJsdoc(options);
 

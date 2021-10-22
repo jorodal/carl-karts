@@ -17,20 +17,26 @@ The REST API must publish, at least, the following endpoints:
 * Add Lap (Pilot - Time)
 
 
-### Running the server
-Dependencies:
+## Dependencies:
 * Must have NodeJs installed
 * Must have PostgreSQL installed
 * Installed node dependicies on package.json
 * Install sequelize-cli
 
 To create the database, run:
-
 ```
 npm install -g sequelize-cli
 npm run db:create
 npm run db:migrate
 ```
+Updated your postgres user in the .env file, defaults are:
+```
+DB_USERNAME=postgres 
+DB_PASSWORD=postgres
+DB_DATABASENAME=carl_karts
+```
+
+### Running the server
 To run the server, run:
 
 ```
@@ -42,9 +48,8 @@ To view the api documentation, open in your browser:
 http://localhost:3000/api-docs
 ```
 
-First step MUST be importing data, make a POST request to:
+First step MUST be importing data, make a POST request with the information contained in 'data/drivers_karts_Back.json' to:
 ```
 POST/ http://localhost:3000/api/import
 BODY: 'data/drivers_karts_Back.json'
 ```
-with the information contained in data/drivers_karts_Back.json

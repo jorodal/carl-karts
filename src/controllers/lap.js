@@ -5,9 +5,9 @@ module.exports = {
  create(req, res) {
     return Lap
         .create ({
-            DriverId: req.body.driver_id,
-            RaceId: req.body.race_id,
-            time: req.body.lap_time
+            DriverId: req.body.DriverId,
+            RaceId: req.body.RaceId,
+            time: req.body.time
         })
         .then(Lap => res.status(201).json(Lap))
         .catch(error => res.status(400).json(error))
@@ -22,8 +22,9 @@ module.exports = {
  find (req, res) {
      return Lap.findAll({
          where: {
-            driver_id: req.params.driverid,
-         }
+            DriverId: req.params.driverid,
+         },
+         attributes: ['time','RaceId']
      })
      .then(Lap => res.status(200).json(Lap))
      .catch(error => res.status(400).json(error))
